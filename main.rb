@@ -16,6 +16,7 @@ module Points
     db.create_table :points do
       varchar :graph, :size => 32
       varchar :value, :size => 32
+      varchar :recorded_at, :size => 12
       timestamp :timestamp
     end
   rescue Sequel::DatabaseError
@@ -56,7 +57,7 @@ get '/graphs/:id/data.csv' do
 end
 
 post '/graphs/:id' do
-  Points.data << { :graph => params[:id], :timestamp => (params[:timestamp] || Time.now), :value => params[:value] }
+  Points.data << { :graph => params[:id], :recorded_at => Time.now.strftime("%m/%d/%Y"), :timestamp => (params[:timestamp] || Time.now), :value => params[:value] }
   "ok"
 end
 
