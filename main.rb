@@ -53,7 +53,9 @@ get '/graphs/:id/amstock_settings.xml' do
 end
 
 get '/graphs/:id/data.csv' do
-  erb :data, :locals => { :points => Points.data.filter(:graph => params[:id]).reverse_order(:timestamp) }
+  # erb :data, :locals => { :points => Points.data.filter(:graph => params[:id]).reverse_order(:timestamp) }
+  erb :data, :locals => { :points => Points.data.filter(:graph => params[:id]).group_and_count(:recorded_at).reverse_order(:recorded_at) }
+
 end
 
 post '/graphs/:id' do
